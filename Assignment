@@ -1,0 +1,72 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Data Preparation
+data = {
+    'Year': [2019, 2020, 2021, 2022, 2023],
+    'Revenue': [386064, 469822, 513983, 574785, 604334],
+    'Gross Profit': [152757, 197478, 225152, 270046, 290341],
+    'Net Income': [21331, 33364, 30524, -2722, 44419],
+    'Operating Expenses': [129858, 172599, 211804, 233194, 235965],
+    'Free Cash Flow': [25924, -14726, -16893, 32217, 48340],
+    'EBITDA': [48079, 59312, 55269, 85515, 104049],
+    'Gross Margin': [39.57, 42.03, 43.81, 46.98, 48.04],
+    'Operating Margin': [5.93, 5.30, 2.60, 6.41, 9.00],
+    'Profit Margin': [5.53, 7.10, -0.53, 5.29, 7.35]
+}
+
+df = pd.DataFrame(data)
+
+# Enhanced Revenue and Gross Profit Plot
+plt.figure(figsize=(14, 8))
+sns.lineplot(x='Year', y='Revenue', data=df, marker='o', label='Revenue', color='blue')
+sns.lineplot(x='Year', y='Gross Profit', data=df, marker='o', label='Gross Profit', color='green')
+plt.title('Amazon Revenue and Gross Profit (2019-2023)', fontsize=16)
+plt.xlabel('Year', fontsize=14)
+plt.ylabel('Millions USD', fontsize=14)
+plt.legend(fontsize=12)
+plt.grid(True)
+plt.show()
+
+# Net Income with annotation for the negative year
+plt.figure(figsize=(14, 8))
+sns.barplot(x='Year', y='Net Income', data=df, palette='viridis')
+plt.title('Amazon Net Income (2019-2023)', fontsize=16)
+plt.xlabel('Year', fontsize=14)
+plt.ylabel('Millions USD', fontsize=14)
+for index, value in enumerate(df['Net Income']):
+    plt.text(index, value if value >= 0 else value - 4000, f'{value:.0f}', ha='center', color='black', fontsize=12)
+plt.grid(True)
+plt.show()
+
+# Operating Expenses and EBITDA Plot
+plt.figure(figsize=(14, 8))
+sns.lineplot(x='Year', y='Operating Expenses', data=df, marker='o', label='Operating Expenses', color='red')
+sns.lineplot(x='Year', y='EBITDA', data=df, marker='o', label='EBITDA', color='purple')
+plt.title('Amazon Operating Expenses and EBITDA (2019-2023)', fontsize=16)
+plt.xlabel('Year', fontsize=14)
+plt.ylabel('Millions USD', fontsize=14)
+plt.legend(fontsize=12)
+plt.grid(True)
+plt.show()
+
+# Free Cash Flow with Heatmap
+plt.figure(figsize=(14, 8))
+sns.heatmap(df.set_index('Year')[['Free Cash Flow']].T, annot=True, fmt='d', cmap='YlGnBu', cbar=False)
+plt.title('Amazon Free Cash Flow (2019-2023)', fontsize=16)
+plt.xlabel('Year', fontsize=14)
+plt.ylabel('Free Cash Flow', fontsize=14)
+plt.show()
+
+# Margins over Time
+plt.figure(figsize=(14, 8))
+sns.lineplot(x='Year', y='Gross Margin', data=df, marker='o', label='Gross Margin', color='orange')
+sns.lineplot(x='Year', y='Operating Margin', data=df, marker='o', label='Operating Margin', color='pink')
+sns.lineplot(x='Year', y='Profit Margin', data=df, marker='o', label='Profit Margin', color='cyan')
+plt.title('Amazon Margins (2019-2023)', fontsize=16)
+plt.xlabel('Year', fontsize=14)
+plt.ylabel('Percentage (%)', fontsize=14)
+plt.legend(fontsize=12)
+plt.grid(True)
+plt.show()
